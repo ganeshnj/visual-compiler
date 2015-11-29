@@ -2,11 +2,15 @@ package calculator;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import org.apache.batik.svggen.SVGGraphics2D;
+
 public class MyClass {
 	
 	private String name;
 	private String accessLevel;
 	private Point position;
+	
+	private SVGGraphics2D graphics;
 	
 	private ArrayList<MyDataMember> dataMembers;
 	private ArrayList<MyMethod> methods;
@@ -21,6 +25,14 @@ public class MyClass {
 		methods = new ArrayList<>();
 		
 		this.name = classname;
+	}
+	
+	public MyClass(String classname, SVGGraphics2D g) {
+		dataMembers = new ArrayList<>();
+		methods = new ArrayList<>();
+		
+		this.name = classname;
+		this.graphics = g;
 	}
 	
 	public String getName() {
@@ -102,6 +114,15 @@ public class MyClass {
 	public void draw() {
 		if(!name.isEmpty()) {
 			System.out.println(name);
+			graphics.drawChars(name.toCharArray(), 0, name.length(), 50, 50);
 		}
+	}
+
+	public SVGGraphics2D getGraphics() {
+		return graphics;
+	}
+
+	public void setGraphics(SVGGraphics2D graphics) {
+		this.graphics = graphics;
 	}
 }

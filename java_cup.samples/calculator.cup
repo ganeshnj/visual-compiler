@@ -31,10 +31,14 @@ parser code {:
 		return value;
 	}
 	
-	private MyContainer container = new MyContainer();
+	private MyContainer container = null;
 	
 	public MyContainer getContainer() {
 		return container;
+	}
+	
+	public void setContainer(MyContainer container) {
+		this.container = container;
 	}
 :}
 

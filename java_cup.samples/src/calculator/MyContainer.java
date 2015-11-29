@@ -3,11 +3,21 @@ package calculator;
 
 import java.util.ArrayList;
 
+import org.apache.batik.svggen.*;
+
 public class MyContainer {
+	
+	private SVGGraphics2D graphics;
+	
 	private ArrayList<MyClass> classes;
 	
 	public MyContainer(){
-		classes = new ArrayList<>();
+		this.classes = new ArrayList<>();
+	}
+	
+	public MyContainer(SVGGraphics2D g){
+		this.classes = new ArrayList<>();
+		this.graphics = g;
 	}
 
 	public ArrayList<MyClass> getClasses() {
@@ -46,7 +56,7 @@ public class MyContainer {
 	}
 	
 	public void createClass(String classname) {
-		MyClass myClass = new MyClass(classname);
+		MyClass myClass = new MyClass(classname, graphics);
 		this.addClass(myClass);
 	}
 
@@ -56,5 +66,13 @@ public class MyContainer {
 			
 			}
 		}
+	}
+
+	public SVGGraphics2D getGraphics() {
+		return graphics;
+	}
+
+	public void setGraphics(SVGGraphics2D graphics) {
+		this.graphics = graphics;
 	}
 }

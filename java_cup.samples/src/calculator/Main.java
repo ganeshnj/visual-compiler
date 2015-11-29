@@ -4,24 +4,29 @@ import java.io.FileReader;
 import java_cup.runtime.ComplexSymbolFactory;
 
 public class Main {
+	
+	private AbstractView view;
+	
+	public Main(String argv[]) {
+		this.view = new InterpreterView();
+		
+		if (argv.length == 1) {
+			this.view.setFilename(argv[0]);
+    	} else {
+    		this.view.setFilename("test.txt");
+    	}
+		
+		this.view.onPaint(view.getSvgGraphics());
+	}
 
 	static public void main(String argv[]) {    
-    try {
-    	String name;
-    	if (argv.length == 1) {
-    		name = argv[0];
-    	} else {
-    		name = "test.txt";
-    	}
-    	ComplexSymbolFactory csf = new ComplexSymbolFactory ();
-    	Lexer l = new Lexer(new FileReader(name));
-    	l.setSymbolFactory(csf);
-    	Parser p = new Parser(l, csf);
-    	p.parse();      
-    } catch (Exception e) {
-    	e.printStackTrace();
-    }
-  }
+		Main mainApp = new Main(argv);
+		mainApp.show();
+	}
+	
+	public void show() {
+		view.setVisible(true);
+	}
 }
 
 
