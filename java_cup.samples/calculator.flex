@@ -21,11 +21,6 @@
 "create"				{ return getSymbolFactory().newSymbol ("CREATE", Sym.CREATE); }
 "class"					{ return getSymbolFactory().newSymbol ("CLASS", Sym.CLASS); }
 
-"set"					{ return getSymbolFactory().newSymbol ("SET", Sym.SET); }
-"public"				{ return getSymbolFactory().newSymbol ("PUBLIC", Sym.PUBLIC); }
-"protected"				{ return getSymbolFactory().newSymbol ("PROTECTED", Sym.PROTECTED); }
-"private"				{ return getSymbolFactory().newSymbol ("PRIVATE", Sym.PRIVATE); }
-
 "draw"					{ return getSymbolFactory().newSymbol ("DRAW", Sym.DRAW); }
    
 [0-9]+      			{ return getSymbolFactory().newSymbol ("NUMBER", Sym.NUMBER, new Integer(yytext())); }

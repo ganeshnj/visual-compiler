@@ -31,14 +31,10 @@ parser code {:
 		return value;
 	}
 	
-	private MyContainer container = null;
+	private MyContainer container = new MyContainer();
 	
 	public MyContainer getContainer() {
 		return container;
-	}
-	
-	public void setContainer(MyContainer container) {
-		this.container = container;
 	}
 :}
 
@@ -52,12 +48,9 @@ terminal			UPLUS, UMINUS;
 terminal String		CLASSNAME;
 terminal			CREATE, CLASS;
 terminal			DRAW;
-terminal			SET;
-terminal			PUBLIC, PROTECTED, PRIVATE;
    
 nonterminal 		list, instr;
 nonterminal Integer expr;
-nonterminal	String	access;
 
 precedence left		PLUS, MINUS;
 precedence left		TIMES, DIVIDE;
@@ -70,7 +63,6 @@ list	::=
 instr	::=	ID:n EQUAL expr:e		{: setValue (n, e); :}
 		|	expr:e					{: System.out.println (e); :}
 		|	CREATE CLASS ID:cn		{: getContainer().createClass(cn); :}
-		|	SET CLASS ID:cn access	{: getContainer().getClass(cn).setAccessLevel(access); :}
 		|	DRAW ID:cn				{: getContainer().getClass(cn).draw(); :}
 		;
 
@@ -83,9 +75,4 @@ expr	::=	expr:e1	PLUS	expr:e2	{: RESULT = e1 + e2; :}
 		|	LPAREN	expr:e	RPAREN	{: RESULT = e; :}
 		|	NUMBER:n				{: RESULT = n; :}
 		|	ID:n					{: RESULT = getValue(n); :}
-		;
-		
-access	::= PUBLIC					{: RESULT = "public"; :}
-		|	PRIVATE					{: RESULT = "private"; :}
-		|	PROTECTED				{: RESULT = "protected"; :}
 		;
