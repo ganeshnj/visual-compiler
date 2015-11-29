@@ -8,8 +8,8 @@
 %cup
 
 %%
-[ \t\f]					{ }
-\r\n|\r|\n				{ return getSymbolFactory().newSymbol ("EOLN", Sym.EOLN); }
+[ \t\n\r]				{ }
+";"						{ return getSymbolFactory().newSymbol ("TERM", Sym.TERM); }
 "="						{ return getSymbolFactory().newSymbol ("EQUAL", Sym.EQUAL); }
 "+"						{ return getSymbolFactory().newSymbol ("PLUS", Sym.PLUS); }
 "-"						{ return getSymbolFactory().newSymbol ("MINUS", Sym.MINUS); }

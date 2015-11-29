@@ -44,7 +44,7 @@ parser code {:
 
 terminal			EQUAL;
 terminal			PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN;
-terminal			EOLN;
+terminal			EOLN, TERM;
 terminal Integer	NUMBER;
 terminal String		ID;
 terminal			UPLUS, UMINUS;
@@ -53,22 +53,28 @@ terminal String		CLASSNAME;
 terminal			CREATE, CLASS;
 terminal			DRAW;
    
-nonterminal 		list, instr;
+nonterminal 		commands, definitions, definition, instruction;
 nonterminal Integer expr;
 
 precedence left		PLUS, MINUS;
 precedence left		TIMES, DIVIDE;
 precedence right	UPLUS, UMINUS;
 
-list	::=	
-		|	list instr EOLN
-		;
+commands	::=	definitions
+			;
+		
+definitions	::= 
+			|	definitions	definition
+			;
+			
+definition	::=	instruction TERM
+			;
 
-instr	::=	ID:n EQUAL expr:e		{: setValue (n, e); :}
-		|	expr:e					{: System.out.println (e); :}
-		|	CREATE CLASS ID:cn		{: getContainer().createClass(cn); :}
-		|	DRAW ID:cn				{: getContainer().getClass(cn).draw(); :}
-		;
+instruction	::=	ID:n EQUAL expr:e		{: setValue (n, e); :}
+			|	expr:e					{: System.out.println (e); :}
+			|	CREATE CLASS ID:cn		{: getContainer().createClass(cn); :}
+			|	DRAW ID:cn				{: getContainer().getClass(cn).draw(); :}
+			;
 
 expr	::=	expr:e1	PLUS	expr:e2	{: RESULT = e1 + e2; :}
 		|	expr:e1	MINUS	expr:e2	{: RESULT = e1 - e2; :}
