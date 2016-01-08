@@ -5,17 +5,17 @@ import java.util.ArrayList;
 
 import org.apache.batik.svggen.*;
 
-public class MyContainer {
+public class MyClassContainer {
 	
 	private SVGGraphics2D graphics;
 	
 	private ArrayList<MyClass> classes;
 	
-	public MyContainer(){
+	public MyClassContainer(){
 		this.classes = new ArrayList<>();
 	}
 	
-	public MyContainer(SVGGraphics2D g){
+	public MyClassContainer(SVGGraphics2D g){
 		this.classes = new ArrayList<>();
 		this.graphics = g;
 	}
@@ -55,9 +55,10 @@ public class MyContainer {
 		return null;
 	}
 	
-	public void createClass(String classname) {
+	public void addClass(String classname) {
 		MyClass myClass = new MyClass(classname, graphics);
 		this.addClass(myClass);
+		System.out.println("Class: " + myClass.getName() + " created successfully");
 	}
 
 	public void draw(){

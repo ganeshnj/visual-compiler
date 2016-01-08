@@ -18,6 +18,8 @@ public class MyClass {
 	public MyClass() {
 		dataMembers = new ArrayList<>();
 		methods = new ArrayList<>();
+		
+		this.position = new Point(100, 100);
 	}
 	
 	public MyClass(String classname) {
@@ -25,6 +27,7 @@ public class MyClass {
 		methods = new ArrayList<>();
 		
 		this.name = classname;
+		this.position = new Point(100, 100);
 	}
 	
 	public MyClass(String classname, SVGGraphics2D g) {
@@ -33,6 +36,7 @@ public class MyClass {
 		
 		this.name = classname;
 		this.graphics = g;
+		this.position = new Point(100, 100);
 	}
 	
 	public String getName() {
@@ -49,6 +53,7 @@ public class MyClass {
 	
 	public void setAccessLevel(String accessLevel) {
 		this.accessLevel = accessLevel;
+		System.out.println("Class: " + this.name + " is set " + accessLevel);
 	}
 	
 	public ArrayList<MyDataMember> getDataMembers() {
@@ -68,11 +73,7 @@ public class MyClass {
 	}
 	
 	public void addDataMember(MyDataMember dataMember) {
-		
-		if(dataMembers == null)
-			dataMembers = new ArrayList<>();
-		
-		this.dataMembers.add(dataMember);
+		this.getDataMembers().add(dataMember);
 	}
 	
 	public ArrayList<MyMethod> getMethods() {
@@ -84,19 +85,12 @@ public class MyClass {
 	}
 	
 	public void setMethods(ArrayList<MyMethod> methods) {
-		
-		if(methods == null)
-			methods = new ArrayList<>();
-		
 		this.methods = methods;
 	}
 	
 	public void addMethod(MyMethod method) {
-		
-		if(methods == null)
-			methods = new ArrayList<>();
-		
-		this.methods.add(method);
+		this.getMethods().add(method);
+		System.out.println("Method: " + method.getName() + " added successfully to Class: " + this.name);
 	}
 
 	public Point getPosition() {
@@ -109,13 +103,43 @@ public class MyClass {
 	
 	public void setPosition(int x, int y) {
 		this.position = new Point(x, y);
+		System.out.println("Class: " + this.name + " position is set to " + this.position.toString());
 	}
 	
 	public void draw() {
+		
+		int y = getPosition().y;
+		
 		if(!name.isEmpty()) {
 			System.out.println(name);
-			graphics.drawChars(name.toCharArray(), 0, name.length(), 50, 50);
+			graphics.drawString(getName(), getPosition().x, y);
+			y += 15;
 		}
+		
+		for (MyMethod method : getMethods()) {
+			StringBuilder builder = new StringBuilder();
+			builder.append(method.getAccessLevel());
+			builder.append("\t");
+			builder.append(method.getName().toString());
+			builder.append("(");
+			
+			for (String arg : method.getArguments()) {
+				builder.append(arg);
+				builder.append(",");
+			}
+			
+			builder.deleteCharAt(builder.length()-1);
+			
+			builder.append(")");
+			builder.append(" : ");
+			builder.append(method.getReturnType().toString());
+			
+			System.out.println(builder.toString());
+			graphics.drawString(builder.toString(), getPosition().x, y);
+			y += 15;
+		}
+		
+		
 	}
 
 	public SVGGraphics2D getGraphics() {

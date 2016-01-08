@@ -1,5 +1,13 @@
-create class hello;
-draw hello;
+create class Order;
+set class Order position 50 50; 
 
-create class hu;
-draw hu;
+create method AddItem;
+set method AddItem ret string;
+set method AddItem arg MenuItem1;
+set method AddItem arg MenuItem2;
+set method AddItem acc private;
+add method AddItem to Order;
+
+create data Item;
+
+draw Order;

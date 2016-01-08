@@ -2,6 +2,7 @@ package calculator;
 
 import java.util.TreeMap;
 import java.util.Map;
+import java.util.ArrayList;
 
 parser code {:
     
@@ -31,14 +32,29 @@ parser code {:
 		return value;
 	}
 	
-	private MyContainer container = null;
-	
-	public MyContainer getContainer() {
+	private MyClassContainer container = null;
+	public MyClassContainer getContainer() {
 		return container;
 	}
 	
-	public void setContainer(MyContainer container) {
+	public void setContainer(MyClassContainer container) {
 		this.container = container;
+	}
+	
+	private MyMethodContainer methods = null;
+	public MyMethodContainer getMethods() {
+		if(methods == null) {
+			methods = new MyMethodContainer();
+		}
+		return methods;
+	}
+	
+	private MyDataMemberContainer dataMembers = null;
+	public MyDataMemberContainer getDataMembers() {
+		if(dataMembers == null) {
+			dataMembers = new MyDataMemberContainer();
+		}
+		return dataMembers;
 	}
 :}
 
@@ -50,11 +66,16 @@ terminal String		ID;
 terminal			UPLUS, UMINUS;
 
 terminal String		CLASSNAME;
-terminal			CREATE, CLASS;
+terminal			CREATE, CLASS, METHOD;
 terminal			DRAW;
+terminal			SET, POSITION, RET, ARG, ACC;
+terminal			ADD, TO;
+terminal			PUBLIC, PROTECTED, PRIVATE;
+terminal			DATA, TYPE;
    
 nonterminal 		commands, definitions, definition, instruction;
 nonterminal Integer expr;
+nonterminal String	accID;
 
 precedence left		PLUS, MINUS;
 precedence left		TIMES, DIVIDE;
@@ -70,11 +91,24 @@ definitions	::=
 definition	::=	instruction TERM
 			;
 
-instruction	::=	ID:n EQUAL expr:e		{: setValue (n, e); :}
-			|	expr:e					{: System.out.println (e); :}
-			|	CREATE CLASS ID:cn		{: getContainer().createClass(cn); :}
-			|	DRAW ID:cn				{: getContainer().getClass(cn).draw(); :}
+instruction	::=	ID:n EQUAL expr:e				{: setValue (n, e); :}
+			|	expr:e							{: System.out.println (e); :}
+			|	CREATE CLASS ID:cn				{: getContainer().addClass(cn); :}
+			|	DRAW ID:cn						{: getContainer().getClass(cn).draw(); :}
+			|	SET CLASS ID:cn POSITION NUMBER:x NUMBER:y 	{: getContainer().getClass(cn).setPosition(x, y); :}
+			|	CREATE METHOD ID:mn				{: getMethods().addMethod(mn); :}
+			|	ADD METHOD ID:mn TO ID:cn 		{: getContainer().getClass(cn).addMethod(getMethods().getMethod(mn)); :}
+			|	SET METHOD ID:mn RET ID:type	{: getMethods().getMethod(mn).setReturnType(type); :}
+			|	SET METHOD ID:mn ARG ID:p 		{: getMethods().getMethod(mn).getArguments().add(p); :}
+			|	SET METHOD ID:mn ACC accID:ai	{: getMethods().getMethod(mn).setAccessLevel(ai); :}
+			|	CREATE DATA ID:dn				{: getDataMembers().addDataMember(dn); :}
+			|	SET DATA ID:dn TYPE ID:type		{: getDataMembers().getDataMember(dn).setType(type); :}
 			;
+
+accID ::= PUBLIC		{: RESULT = "+"; :}
+		| PROTECTED		{: RESULT = "#"; :}	
+		| PRIVATE		{: RESULT = "-"; :}
+		;		
 
 expr	::=	expr:e1	PLUS	expr:e2	{: RESULT = e1 + e2; :}
 		|	expr:e1	MINUS	expr:e2	{: RESULT = e1 - e2; :}

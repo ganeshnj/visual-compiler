@@ -8,6 +8,10 @@ public class MyDataMember {
 	private String accessLevel;
 	private String type;
 	
+	public MyDataMember(String name) {
+		this.name = name;
+	}
+	
 	public String getName() {
 		return name;
 	}
