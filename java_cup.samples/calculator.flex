@@ -23,6 +23,7 @@
 "method"				{ return getSymbolFactory().newSymbol ("METHOD", Sym.METHOD); }
 "data"					{ return getSymbolFactory().newSymbol ("DATA", Sym.DATA); }
 "type"					{ return getSymbolFactory().newSymbol ("TYPE", Sym.TYPE); }
+"width"					{ return getSymbolFactory().newSymbol ("WIDTH", Sym.WIDTH); }
 
 "set"					{ return getSymbolFactory().newSymbol ("SET", Sym.SET); }
 "position"				{ return getSymbolFactory().newSymbol ("POSITION", Sym.POSITION); }

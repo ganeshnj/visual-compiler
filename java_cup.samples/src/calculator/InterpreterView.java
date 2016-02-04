@@ -23,7 +23,7 @@ public class InterpreterView extends AbstractView {
 	    	Lexer l = new Lexer(new FileReader(this.getFilename()));
 	    	l.setSymbolFactory(csf);
 	    	Parser p = new Parser(l, csf);
-	    	p.setContainer(new MyClassContainer(getSvgGraphics()));
+	    	p.setContainer(new Container(getSvgGraphics()));
 	    	p.parse();
 	    } catch (Exception e) {
 	    	e.printStackTrace();

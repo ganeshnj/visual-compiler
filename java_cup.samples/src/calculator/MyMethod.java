@@ -8,7 +8,7 @@ public class MyMethod {
 	private String name;
 	private String accessLevel;
 	private String returnType;
-	private ArrayList<String> arguments;
+	private ArrayList<MyDataMember> arguments;
 	
 	public MyMethod(String name) {
 		// TODO Auto-generated constructor stub
@@ -29,6 +29,7 @@ public class MyMethod {
 	
 	public void setAccessLevel(String accessLevel) {
 		this.accessLevel = accessLevel;
+		System.out.println("Method: " + this.name + "'s access level is set " + accessLevel);
 	}
 	
 	public String getReturnType() {
@@ -37,10 +38,10 @@ public class MyMethod {
 	
 	public void setReturnType(String returnType) {
 		this.returnType = returnType;
-		System.out.println(MyMethod.class.getName() + ":" + this.getName() + " return type set to " + getReturnType());
+		System.out.println("Method: " + this.name + "'s return type is set " + returnType);
 	}
 	
-	public ArrayList<String> getArguments() {
+	public ArrayList<MyDataMember> getArguments() {
 		
 		if(arguments == null)
 			arguments = new ArrayList<>();
@@ -48,19 +49,14 @@ public class MyMethod {
 		return arguments;
 	}
 	
-	public void setArguments(ArrayList<String> arguments) {
-		
-		if(arguments == null)
-			arguments = new ArrayList<>();
-		
+	public void setArguments(ArrayList<MyDataMember> arguments) {
 		this.arguments = arguments;
 	}
 	
-	public void addArgument(String argument) {
+	public void addArgument(String argumentName, String type) {
+		MyDataMember arg = new MyDataMember(argumentName, type);
+		getArguments().add(arg);
+		System.out.println("Method: " + this.name + " : argument " + arg.getName() + " of type " + arg.getType()  + " is added");
 		
-		if(arguments == null)
-			arguments = new ArrayList<>();
-		
-		this.arguments.add(argument);
 	}
 }

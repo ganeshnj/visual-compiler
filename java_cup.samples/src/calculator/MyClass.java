@@ -1,29 +1,43 @@
 package calculator;
 import java.awt.Point;
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import org.apache.batik.svggen.SVGGraphics2D;
+import java.awt.*;
+import java.awt.geom.*;
+
+import javax.swing.*;
+
+import org.apache.batik.swing.*;
+import org.apache.batik.svggen.*;
+import org.apache.batik.dom.svg.SVGDOMImplementation;
+
+import org.w3c.dom.*;
+import org.w3c.dom.svg.*;
 
 public class MyClass {
-	
+	private static final int OFFSET = 15;
+	private static final int GAP = 15;
 	private String name;
 	private String accessLevel;
 	private Point position;
+	private int width;
 	
 	private SVGGraphics2D graphics;
 	
-	private ArrayList<MyDataMember> dataMembers;
+	private ArrayList<MyDataMember> datas;
 	private ArrayList<MyMethod> methods;
 	
 	public MyClass() {
-		dataMembers = new ArrayList<>();
+		datas = new ArrayList<>();
 		methods = new ArrayList<>();
 		
 		this.position = new Point(100, 100);
 	}
 	
 	public MyClass(String classname) {
-		dataMembers = new ArrayList<>();
+		datas = new ArrayList<>();
 		methods = new ArrayList<>();
 		
 		this.name = classname;
@@ -31,7 +45,7 @@ public class MyClass {
 	}
 	
 	public MyClass(String classname, SVGGraphics2D g) {
-		dataMembers = new ArrayList<>();
+		datas = new ArrayList<>();
 		methods = new ArrayList<>();
 		
 		this.name = classname;
@@ -56,28 +70,28 @@ public class MyClass {
 		System.out.println("Class: " + this.name + " is set " + accessLevel);
 	}
 	
-	public ArrayList<MyDataMember> getDataMembers() {
+	public ArrayList<MyDataMember> getDatas() {
+		
+		if(datas == null)
+			datas = new ArrayList<>();
+		
+		return datas;
+	}
+	
+	public void setDatas(ArrayList<MyDataMember> dataMembers) {
 		
 		if(dataMembers == null)
 			dataMembers = new ArrayList<>();
 		
-		return dataMembers;
+		this.datas = dataMembers;
 	}
 	
-	public void setDataMembers(ArrayList<MyDataMember> dataMembers) {
-		
-		if(dataMembers == null)
-			dataMembers = new ArrayList<>();
-		
-		this.dataMembers = dataMembers;
-	}
-	
-	public void addDataMember(MyDataMember dataMember) {
-		this.getDataMembers().add(dataMember);
+	public void addData(MyDataMember dataMember) {
+		this.getDatas().add(dataMember);
+		System.out.println("Datamember: " + dataMember.getName() + " added to Class: " + this.name);
 	}
 	
 	public ArrayList<MyMethod> getMethods() {
-		
 		if(methods == null)
 			methods = new ArrayList<>();
 		
@@ -90,7 +104,7 @@ public class MyClass {
 	
 	public void addMethod(MyMethod method) {
 		this.getMethods().add(method);
-		System.out.println("Method: " + method.getName() + " added successfully to Class: " + this.name);
+		System.out.println("Method: " + method.getName() + " added to Class: " + this.name);
 	}
 
 	public Point getPosition() {
@@ -109,11 +123,25 @@ public class MyClass {
 	public void draw() {
 		
 		int y = getPosition().y;
+		y = y + GAP;
 		
 		if(!name.isEmpty()) {
-			System.out.println(name);
+			System.out.println("Drawing class: " + getName());
 			graphics.drawString(getName(), getPosition().x, y);
-			y += 15;
+			y = y + GAP;
+		}
+		
+		for (MyDataMember dataMember : getDatas()) {
+			StringBuilder builder = new StringBuilder();
+			builder.append(dataMember.getAccessLevel());
+			builder.append("\t");
+			builder.append(dataMember.getName().toString());
+			builder.append(" : ");
+			builder.append(dataMember.getType());
+			
+			System.out.println(builder.toString());
+			graphics.drawString(builder.toString(), getPosition().x, y);
+			y = y + GAP;
 		}
 		
 		for (MyMethod method : getMethods()) {
@@ -123,8 +151,10 @@ public class MyClass {
 			builder.append(method.getName().toString());
 			builder.append("(");
 			
-			for (String arg : method.getArguments()) {
-				builder.append(arg);
+			for (MyDataMember arg : method.getArguments()) {
+				builder.append(arg.getName());
+				builder.append(" : ");
+				builder.append(arg.getType());
 				builder.append(",");
 			}
 			
@@ -136,9 +166,10 @@ public class MyClass {
 			
 			System.out.println(builder.toString());
 			graphics.drawString(builder.toString(), getPosition().x, y);
-			y += 15;
+			y = y + GAP;
 		}
 		
+		graphics.drawRect(getPosition().x - OFFSET, getPosition().y, getWidth(), getHeight(y));
 		
 	}
 
@@ -148,5 +179,18 @@ public class MyClass {
 
 	public void setGraphics(SVGGraphics2D graphics) {
 		this.graphics = graphics;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+		System.out.println("Class: " + this.name + " : width is set to " + width);
+	}
+
+	public int getHeight(int y) {
+		return  y - getPosition().y;
 	}
 }

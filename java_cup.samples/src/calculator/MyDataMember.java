@@ -12,6 +12,11 @@ public class MyDataMember {
 		this.name = name;
 	}
 	
+	public MyDataMember(String name, String type) {
+		this.name = name;
+		this.type = type;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -34,5 +39,6 @@ public class MyDataMember {
 	
 	public void setType(String type) {
 		this.type = type;
+		System.out.println("Data: " + getName() + "'s type is set to" + getType());
 	}
 }

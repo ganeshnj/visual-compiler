@@ -1,13 +1,40 @@
 create class Order;
-set class Order position 50 50; 
+class Order set position 50 50;
+class Order set acc private;
+class Order set width 350;
 
 create method AddItem;
-set method AddItem ret string;
-set method AddItem arg MenuItem1;
-set method AddItem arg MenuItem2;
-set method AddItem acc private;
-add method AddItem to Order;
+method AddItem set ret void;
+method AddItem set arg MenuItem1 string;
+method AddItem set arg MenuItem2 string;
+method AddItem set acc private;
+method AddItem add to Order;
+
+create method GetItem;
+method GetItem set ret Item;
+method GetItem set arg itemname string;
+method GetItem set acc public;
+method GetItem add to Order;
 
 create data Item;
+data Item add to Order;
+data Item set type string;
+data Item set acc public;
+
+create data Item2;
+data Item2 add to Order;
+data Item2 set type string;
+data Item2 set acc public;
 
 draw Order;
+
+create class Item;
+class Item set position 400 50;
+class Item set acc private;
+
+create data Name;
+data Name add to Item;
+data Name set type string;
+data Name set acc private;
+
+draw Item;
