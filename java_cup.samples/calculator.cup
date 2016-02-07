@@ -61,7 +61,7 @@ terminal			ONE, MANY;
 nonterminal 		commands, definitions, definition, instruction;
 nonterminal Integer expr, qty;
 nonterminal String	accID;
-nonterminal 		classSetter;
+nonterminal 		creator, classSetter, methodSetter, dataSetter;
 
 precedence left		PLUS, MINUS;
 precedence left		TIMES, DIVIDE;
@@ -79,25 +79,35 @@ definition	::=	instruction TERM
 
 instruction	::=	ID:n EQUAL expr:e				{: setValue (n, e); :}
 			|	expr:e							{: System.out.println (e); :}
-			|	CREATE CLASS ID:cn				{: getContainer().addClass(cn); :}
+			|	CREATE creator
+			|	CLASS classSetter
+			|	METHOD methodSetter
+			|	DATA dataSetter
 			|	DRAW ID:cn						{: getContainer().getClass(cn).draw(); :}
-			|	CLASS ID:cn SET POSITION NUMBER:x NUMBER:y 	{: getContainer().getClass(cn).setPosition(x, y); :} 
- 			|	CLASS ID:cn SET ACC accID:ai	{: getContainer().getClass(cn).setAccessLevel(ai); :} 
- 			|	CLASS ID:cn SET WIDTH NUMBER:n	{: getContainer().getClass(cn).setWidth(n); :} 
-			|	CLASS ID:cn INHERIT ID:cn2 	{: getContainer().getClass(cn).setParent(getContainer().getClass(cn2)); :}
-			|	CLASS ID:cn HAS qty:q ID:cn2	{: getContainer().getClass(cn).addRelationship(getContainer().getClass(cn2), q); :}
-			|	CREATE METHOD ID:mn				{: getContainer().addMethod(mn); :}
-			|	METHOD ID:mn ADD TO ID:cn 		{: getContainer().getClass(cn).addMethod(getContainer().getMethod(mn)); :}
-			|	METHOD ID:mn SET RET ID:type	{: getContainer().getMethod(mn).setReturnType(type); :}
-			|	METHOD ID:mn SET ARG ID:an ID:type	{: getContainer().getMethod(mn).addArgument(an, type); :}
-			|	METHOD ID:mn SET ACC accID:ai	{: getContainer().getMethod(mn).setAccessLevel(ai); :}
-			|	CREATE DATA ID:dn				{: getContainer().addData(dn); :}
-			|	DATA ID:dn SET TYPE ID:type		{: getContainer().getData(dn).setType(type); :}
-			|	DATA ID:dn SET ACC accID:ai		{: getContainer().getData(dn).setAccessLevel(ai); :}
-			|	DATA ID:dn ADD TO ID:cn			{: getContainer().getClass(cn).addData(getContainer().getData(dn)); :}
+			;
+			
+creator		::= CLASS ID:cn				{: getContainer().addClass(cn); :}
+			|	METHOD ID:mn				{: getContainer().addMethod(mn); :}
+			| 	DATA ID:dn				{: getContainer().addData(dn); :}
 			;
 		
+classSetter ::= ID:cn SET POSITION NUMBER:x NUMBER:y 	{: getContainer().getClass(cn).setPosition(x, y); :} 
+ 			|	ID:cn SET ACC accID:ai	{: getContainer().getClass(cn).setAccessLevel(ai); :} 
+ 			|	ID:cn SET WIDTH NUMBER:n	{: getContainer().getClass(cn).setWidth(n); :} 
+			|	ID:cn INHERIT ID:cn2 	{: getContainer().getClass(cn).setParent(getContainer().getClass(cn2)); :}
+			|	ID:cn HAS qty:q ID:cn2	{: getContainer().getClass(cn).addRelationship(getContainer().getClass(cn2), q); :}
+			;
+			
+methodSetter ::= ID:mn ADD TO ID:cn 		{: getContainer().getClass(cn).addMethod(getContainer().getMethod(mn)); :}
+			|	ID:mn SET RET ID:type	{: getContainer().getMethod(mn).setReturnType(type); :}
+			|	ID:mn SET ARG ID:an ID:type	{: getContainer().getMethod(mn).addArgument(an, type); :}
+			|	ID:mn SET ACC accID:ai	{: getContainer().getMethod(mn).setAccessLevel(ai); :}
+			;
 
+dataSetter ::= 	ID:dn SET TYPE ID:type		{: getContainer().getData(dn).setType(type); :}
+			|	ID:dn SET ACC accID:ai		{: getContainer().getData(dn).setAccessLevel(ai); :}
+			|	ID:dn ADD TO ID:cn			{: getContainer().getClass(cn).addData(getContainer().getData(dn)); :}
+			;
 
 accID ::= PUBLIC		{: RESULT = "+"; :}
 		| PROTECTED		{: RESULT = "#"; :}	
