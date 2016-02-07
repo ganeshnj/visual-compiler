@@ -1,40 +1,83 @@
+create class User;
+class User set position 300 25;
+class User set width 200;
+
+create data userId;
+data userId set acc private;
+data userId set type string;
+data userId add to User;
+
+create data password;
+data password set acc private;
+data password set type string;
+data password add to User;
+
+create data isLogined;
+data isLogined set acc private;
+data isLogined set type boolean;
+data isLogined add to User;
+
+create method verifyLogin;
+method verifyLogin set ret boolean;
+method verifyLogin set acc public;
+method verifyLogin add to User;
+
+create class Customer;
+class Customer set position 50 50;
+class Customer set width 200;
+
+create data customerName;
+data customerName set acc private;
+data customerName set type string;
+data customerName add to Customer;
+
+create data email;
+data email set acc private;
+data email set type string;
+data email add to Customer;
+
+create method register;
+method register set ret void;
+method register set acc public;
+method register add to Customer;
+
+create class Administrator;
+class Administrator set position 550 50;
+class Administrator set width 200;
+
+create data adminName;
+data adminName set acc private;
+data adminName set type string;
+data adminName add to Administrator;
+
+create data email;
+data email set acc private;
+data email set type string;
+data email add to Administrator;
+
+create method updateCatalog;
+method updateCatalog set ret bool;
+method updateCatalog set acc public;
+method updateCatalog add to Administrator;
+
 create class Order;
-class Order set position 50 50;
-class Order set acc private;
-class Order set width 350;
+class Order set position 50 250;
+class Order set width 200;
 
-create method AddItem;
-method AddItem set ret void;
-method AddItem set arg MenuItem1 string;
-method AddItem set arg MenuItem2 string;
-method AddItem set acc private;
-method AddItem add to Order;
+create data orderId;
+data orderId set acc private;
+data orderId set type string;
+data orderId add to Order;
 
-create method GetItem;
-method GetItem set ret Item;
-method GetItem set arg itemname string;
-method GetItem set acc public;
-method GetItem add to Order;
+create data dateCreated;
+data dateCreated set acc private;
+data dateCreated set type string;
+data dateCreated add to Order;
 
-create data Item;
-data Item add to Order;
-data Item set type string;
-data Item set acc public;
-
-create data Item2;
-data Item2 add to Order;
-data Item2 set type string;
-data Item2 set acc public;
-
+class Customer inherit User;
+class Administrator inherit User;
+class Customer has many Order;
+draw User;
+draw Customer;
+draw Administrator;
 draw Order;
-
-create class Item;
-class Item set position 400 50;
-class Item set acc private;
-
-create data Name;
-data Name add to Item;
-data Name set type string;
-data Name set acc private;
-
-draw Item;

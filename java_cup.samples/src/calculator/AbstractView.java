@@ -31,8 +31,8 @@ public abstract class AbstractView extends javax.swing.JFrame {
 	private void initialize() {
 		// TODO Auto-generated method stub
 		this.setName("JFrame");
-		this.setPreferredSize(new Dimension(640, 480));
-		this.setSize(640, 480);
+		this.setPreferredSize(new Dimension(800, 600));
+		this.setSize(800, 600);
 		this.setJMenuBar(getjMenuBar());
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("My Interpreter");

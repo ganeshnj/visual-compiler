@@ -29,7 +29,7 @@ public class InterpreterView extends AbstractView {
 	    	e.printStackTrace();
 	    }
 		
-		getSvgGraphics().setSVGCanvasSize(new Dimension(640, 480));
+		getSvgGraphics().setSVGCanvasSize(new Dimension(800, 600));
 		
 		Element root = getSvgDocument().getDocumentElement();
 		getSvgGraphics().getRoot(root);

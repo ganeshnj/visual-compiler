@@ -24,16 +24,21 @@
 "data"					{ return getSymbolFactory().newSymbol ("DATA", Sym.DATA); }
 "type"					{ return getSymbolFactory().newSymbol ("TYPE", Sym.TYPE); }
 "width"					{ return getSymbolFactory().newSymbol ("WIDTH", Sym.WIDTH); }
+"inherit"				{ return getSymbolFactory().newSymbol ("INHERIT", Sym.INHERIT); }
+"has"					{ return getSymbolFactory().newSymbol ("HAS", Sym.HAS); }
 
 "set"					{ return getSymbolFactory().newSymbol ("SET", Sym.SET); }
 "position"				{ return getSymbolFactory().newSymbol ("POSITION", Sym.POSITION); }
-"ret"				{ return getSymbolFactory().newSymbol ("RET", Sym.RET); }
-"arg"				{ return getSymbolFactory().newSymbol ("ARG", Sym.ARG); }
-"acc"				{ return getSymbolFactory().newSymbol ("ACC", Sym.ACC); }
+"ret"					{ return getSymbolFactory().newSymbol ("RET", Sym.RET); }
+"arg"					{ return getSymbolFactory().newSymbol ("ARG", Sym.ARG); }
+"acc"					{ return getSymbolFactory().newSymbol ("ACC", Sym.ACC); }
 
 "public"				{ return getSymbolFactory().newSymbol ("PUBLIC", Sym.PUBLIC); }
 "protected"				{ return getSymbolFactory().newSymbol ("PROTECTED", Sym.PROTECTED); }
 "private"				{ return getSymbolFactory().newSymbol ("PRIVATE", Sym.PRIVATE); }
+
+"one"					{ return getSymbolFactory().newSymbol ("ONE", Sym.ONE); }
+"many"					{ return getSymbolFactory().newSymbol ("MANY", Sym.MANY); }
 
 
 

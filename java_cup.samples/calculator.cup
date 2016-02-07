@@ -52,14 +52,16 @@ terminal			UPLUS, UMINUS;
 terminal String		CLASSNAME;
 terminal			CREATE, CLASS, METHOD;
 terminal			DRAW;
-terminal			SET, POSITION, RET, ARG, ACC, WIDTH;
+terminal			SET, POSITION, RET, ARG, ACC, WIDTH, INHERIT, HAS;
 terminal			ADD, TO;
 terminal			PUBLIC, PROTECTED, PRIVATE;
 terminal			DATA, TYPE;
+terminal			ONE, MANY;
    
 nonterminal 		commands, definitions, definition, instruction;
-nonterminal Integer expr;
+nonterminal Integer expr, qty;
 nonterminal String	accID;
+nonterminal 		classSetter;
 
 precedence left		PLUS, MINUS;
 precedence left		TIMES, DIVIDE;
@@ -79,9 +81,11 @@ instruction	::=	ID:n EQUAL expr:e				{: setValue (n, e); :}
 			|	expr:e							{: System.out.println (e); :}
 			|	CREATE CLASS ID:cn				{: getContainer().addClass(cn); :}
 			|	DRAW ID:cn						{: getContainer().getClass(cn).draw(); :}
-			|	CLASS ID:cn SET POSITION NUMBER:x NUMBER:y 	{: getContainer().getClass(cn).setPosition(x, y); :}
-			|	CLASS ID:cn SET ACC accID:ai	{: getContainer().getClass(cn).setAccessLevel(ai); :}
-			|	CLASS ID:cn SET WIDTH NUMBER:n	{: getContainer().getClass(cn).setWidth(n); :}
+			|	CLASS ID:cn SET POSITION NUMBER:x NUMBER:y 	{: getContainer().getClass(cn).setPosition(x, y); :} 
+ 			|	CLASS ID:cn SET ACC accID:ai	{: getContainer().getClass(cn).setAccessLevel(ai); :} 
+ 			|	CLASS ID:cn SET WIDTH NUMBER:n	{: getContainer().getClass(cn).setWidth(n); :} 
+			|	CLASS ID:cn INHERIT ID:cn2 	{: getContainer().getClass(cn).setParent(getContainer().getClass(cn2)); :}
+			|	CLASS ID:cn HAS qty:q ID:cn2	{: getContainer().getClass(cn).addRelationship(getContainer().getClass(cn2), q); :}
 			|	CREATE METHOD ID:mn				{: getContainer().addMethod(mn); :}
 			|	METHOD ID:mn ADD TO ID:cn 		{: getContainer().getClass(cn).addMethod(getContainer().getMethod(mn)); :}
 			|	METHOD ID:mn SET RET ID:type	{: getContainer().getMethod(mn).setReturnType(type); :}
@@ -92,12 +96,18 @@ instruction	::=	ID:n EQUAL expr:e				{: setValue (n, e); :}
 			|	DATA ID:dn SET ACC accID:ai		{: getContainer().getData(dn).setAccessLevel(ai); :}
 			|	DATA ID:dn ADD TO ID:cn			{: getContainer().getClass(cn).addData(getContainer().getData(dn)); :}
 			;
+		
+
 
 accID ::= PUBLIC		{: RESULT = "+"; :}
 		| PROTECTED		{: RESULT = "#"; :}	
 		| PRIVATE		{: RESULT = "-"; :}
-		;		
+		;
 
+qty 	::= ONE			{: RESULT = 1; :}		
+		| MANY			{: RESULT = 99; :}
+		;
+		
 expr	::=	expr:e1	PLUS	expr:e2	{: RESULT = e1 + e2; :}
 		|	expr:e1	MINUS	expr:e2	{: RESULT = e1 - e2; :}
 		|	expr:e1	TIMES	expr:e2	{: RESULT = e1 * e2; :}
