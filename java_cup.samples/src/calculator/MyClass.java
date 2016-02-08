@@ -210,13 +210,24 @@ public class MyClass {
 
 			Liner liner = new Liner(end, start);
 			Line2D line = liner.getLine();
-			Line2D xAxis = new Line2D.Double(100, 0, 0, 0);
-			double theta = angleBetween2Lines(line, xAxis);
 			graphics.drawLine((int) line.getX1(), (int) line.getY1(), (int) line.getX2(), (int) line.getY2());
 
 			// draw rectangle at itself		
 			Polygon p = getSquarePolygon(line, 5, 5);
 			graphics.fillPolygon(p);
+			
+			Point p1 = interpolationByDistance(line, 20);
+			//graphics.drawOval(p1.x, p1.y, 5, 5);
+			
+			String s = relationship.getValue() == RelationshipType.Many ? " 0..*" : " 1";
+			graphics.drawString(s, p1.x, p1.y);
+			
+			Point p2 = interpolationByDistance(new Line2D.Double(line.getP2(), line.getP1()), 20);
+			// graphics.drawOval(p2.x, p2.y, 5, 5);
+			graphics.drawString(" 1", p2.x, p2.y);
+			
+			
+			
 		}
 
 	}
@@ -300,15 +311,6 @@ public class MyClass {
 
 		Point p = new Point((int) x, (int) y);
 		return p;
-	}
-	
-	public double angleBetween2Lines(Line2D line1, Line2D line2)
-	{
-	    double angle1 = Math.atan2(line1.getY1() - line1.getY2(),
-	                               line1.getX1() - line1.getX2());
-	    double angle2 = Math.atan2(line2.getY1() - line2.getY2(),
-	                               line2.getX1() - line2.getX2());
-	    return angle1-angle2;
 	}
 	
 	private Polygon getArrowPolygon(Line2D line, int d, int h){

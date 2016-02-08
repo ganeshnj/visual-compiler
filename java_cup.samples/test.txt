@@ -74,10 +74,38 @@ data dateCreated set acc private;
 data dateCreated set type string;
 data dateCreated add to Order;
 
+create class ShippingInfo;
+class ShippingInfo set position 300 200;
+class ShippingInfo set width 200;
+
+create data shippingId;
+data shippingId set acc private;
+data shippingId set type string;
+data shippingId add to ShippingInfo;
+
+create data shippingCost;
+data shippingCost set acc private;
+data shippingCost set type string;
+data shippingCost add to ShippingInfo;
+
+create data shippingRegion;
+data shippingRegion set acc private;
+data shippingRegion set type string;
+data shippingRegion add to ShippingInfo;
+
+create method updateShippingInfo;
+method updateShippingInfo set ret void;
+method updateShippingInfo set acc public;
+method updateShippingInfo add to ShippingInfo;
+
+
 class Customer inherit User;
 class Administrator inherit User;
 class Customer has many Order;
+class Order has one ShippingInfo;
+
 draw User;
 draw Customer;
 draw Administrator;
 draw Order;
+draw ShippingInfo;
