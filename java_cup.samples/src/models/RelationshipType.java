@@ -1,4 +1,4 @@
-package calculator;
+package models;
 
 public enum RelationshipType {
 	One,

@@ -1,4 +1,4 @@
-package calculator;
+package application;
 
 import java.io.FileReader;
 import java_cup.runtime.ComplexSymbolFactory;

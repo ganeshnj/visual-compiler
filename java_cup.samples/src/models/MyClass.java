@@ -1,4 +1,4 @@
-package calculator;
+package models;
 
 import java.awt.Point;
 import java.awt.Shape;
@@ -20,6 +20,8 @@ import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.w3c.dom.*;
 import org.w3c.dom.svg.*;
 
+import helpers.Liner;
+
 public class MyClass {
 	private static final int OFFSET = 15;
 	private static final int GAP = 15;
@@ -28,7 +30,6 @@ public class MyClass {
 	private Point position;
 	private int width;
 	private MyClass parent;
-	private Connector connector;
 
 	private SVGGraphics2D graphics;
 
@@ -262,17 +263,6 @@ public class MyClass {
 		this.parent = parent;
 		System.out.println("Class: " + this.name + " : inherits " + parent.getName());
 	}
-
-	public Connector getConnector() {
-		if (connector == null)
-			connector = new Connector(getPosition().x, getPosition().y, getWidth(), getHeight());
-		return connector;
-	}
-
-	public void setConnector(Connector connector) {
-		this.connector = connector;
-	}
-
 	public HashMap<MyClass, RelationshipType> getRelationships() {
 		if (relationships == null)
 			relationships = new HashMap<MyClass, RelationshipType>();
